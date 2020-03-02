@@ -407,7 +407,7 @@ fill i d = width d (λ w → if ⌊ (w ℕ.≥? i) ⌋ then empty else text (spa
 -- overloading "pretty", the Pretty class
 -----------------------------------------------------------
 
-record Pretty (A : Set) : Set where
+record Pretty {a} (A : Set a) : Set a where
   field
     pretty        : A → Doc
   prettyList : List A → Doc
@@ -540,5 +540,5 @@ layout (SLine i x)   = "\n" +++ spaces i +++ layout x
 ppretty : ℕ → Doc → String
 ppretty n d = layout (renderPretty 1.0 n d)
 
-pprint : {A : Set} {p : Pretty A} → ℕ → A → String
+pprint : ∀ {a} {A : Set a} {p : Pretty A} → ℕ → A → String
 pprint {p = p} n x = layout (renderPretty 1.0 n (pretty {{p}} x))
