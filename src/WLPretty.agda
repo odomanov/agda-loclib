@@ -540,5 +540,18 @@ layout (SLine i x)   = "\n" +++ spaces i +++ layout x
 ppretty : ℕ → Doc → String
 ppretty n d = layout (renderPretty 1.0 n d)
 
-pprint : ∀ {a} {A : Set a} {p : Pretty A} → ℕ → A → String
-pprint {p = p} n x = layout (renderPretty 1.0 n (pretty {{p}} x))
+-- pprint : ∀ {a} {A : Set a} {p : Pretty A} → ℕ → A → String
+-- pprint {p = p} n x = layout (renderPretty 1.0 n (pretty {{p}} x))
+
+--------------------------------------------
+-- the PPrint class
+--------------------------------------------
+
+record PPrint {a} (A : Set a) : Set a where
+  field
+    prettytype : Pretty A
+  pprint : ℕ → A → String
+  pprint n x = layout (renderPretty 1.0 n (pretty {{prettytype}} x))
+
+open PPrint {{...}} public
+

@@ -93,6 +93,9 @@ showTrees (t ∷ ts) = showTree t <> text "," <> line <> showTrees ts
 instance
   ppTree : Pretty Tree
   pretty {{ppTree}} = showTree
+
+  pppTree : PPrint Tree
+  prettytype {{pppTree}} = ppTree
   
 showTree' (Node s ts) = group (text s <> showBracket' ts)
 
@@ -105,7 +108,9 @@ showTrees' ts = folddoc (λ x y → x <> comma <> line <> y) (L.map showTree' ts
 instance
   ppTree' : Pretty Tree
   pretty {{ppTree'}} = showTree'
-  
+
+  pppTree' : PPrint Tree
+  prettytype {{pppTree'}} = ppTree'
 
 tree : Tree
 tree = Node "aaa" (
@@ -163,6 +168,9 @@ showXMLs x = fillSep (L.map showXML x)
 instance
   ppXML : Pretty XML
   pretty {{ppXML}} = showXML
+
+  pppXML : PPrint XML
+  prettytype {{pppXML}} = ppXML
   
 xml : XML
 xml = Elt "p" (
@@ -204,14 +212,14 @@ main = run (putStr StringToPrint)
     +++ "\n============================\n"
     +++ (ppretty 40 (showTree' tree))
     +++ "\n============================\n"
-    +++ (pprint {p = ppTree} 19 tree)
+    +++ (pprint {{pppTree}} 19 tree)
     +++ "\n============================\n"
-    +++ (pprint {p = ppTree'} 19 tree)
+    +++ (pprint {{pppTree'}} 19 tree)
     -- +++ "\n============================\n"
     -- +++ (pretty 6 (showTree tree1))
     +++ "\n============================\n"
-    +++ (pprint {p = ppXML} 10 xml)
+    +++ (pprint 10 xml)
     +++ "\n============================\n"
-    +++ (pprint {p = ppXML} 20 xml)
+    +++ (pprint 20 xml)
     +++ "\n============================\n"
-    +++ (pprint {p = ppXML} 40 xml)
+    +++ (pprint 40 xml)
